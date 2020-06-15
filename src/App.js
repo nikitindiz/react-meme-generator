@@ -13,6 +13,7 @@ export default class App extends React.Component {
       memeImage: initialImage,
 
       memeTemplatesLoadingState: 'IDLE', // 'STARTED', 'SUCCEED', 'FAILED'
+      memeTemplatesLoadingError: null,
       memeTemplates: [],
     };
   }
@@ -106,25 +107,23 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch('https://api.imgflip.com/get_memes')
-      .then(response => response.json())
-      .then(resultObject => {
-        console.log('resultObject', resultObject);
-      })
-      .catch(error => {
-        console.log('rejected', error.message)
-      });
-
-
-
-      // .then(response => {
-      //   return response.json();
-      // })
-      // .then(memesResult => {
-      //   this.setState({ memeTemplates: memesResult.data.memes });
-      // })
-      // .catch(error => {
-      //   console.log(error);
-      // })
+    this.setState({
+      memeTemplatesLoadingState: 'STARTED',
+    }, () => {
+      fetch('https://api.imgflip.com/get_memes')
+        .then(response => response.json())
+        .then(resultObject => {
+          this.setState({
+            memeTemplatesLoadingState: 'SUCCEED',
+            memeTemplates: resultObject.data.memes
+          });
+        })
+        .catch(error => {
+          this.setState({
+            memeTemplatesLoadingState: 'FAILED',
+            memeTemplatesLoadingError: error.message,
+          });
+        });
+    })
   }
 }
