@@ -3,6 +3,15 @@ import './App.css';
 
 import initialImage from './img/meme-initial.jpg';
 
+// import myFetch from './my-fetch-module';
+
+import { variableArray, variableExample, myFetch } from './my-fetch-module';
+
+const x = myFetch(variableArray, variableExample, (data) => console.log(data))
+
+// myFetch('asdad', 'asdad', () => {});
+// myFetch('foo', 'foo', () => {});
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -101,6 +110,8 @@ export default class App extends React.Component {
                 accept="image/png, image/jpeg"
                 hidden={true}
                 onChange={(event) => {
+                  console.log(event);
+
                   const inputElement = event.target;
                   const file = inputElement.files[0]; // Instance of File (https://developer.mozilla.org/en-US/docs/Web/API/File)
                   const fileAsBase64URLString = URL.createObjectURL(file);
