@@ -22,6 +22,7 @@
 }
 
 .react-meme-generator__button {
+  font-size: 13px;
   margin: 7px;
   border: none;
   background-color: rgb(38, 70, 121);

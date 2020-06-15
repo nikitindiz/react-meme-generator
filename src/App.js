@@ -17,6 +17,8 @@ export default class App extends React.Component {
       memeTemplates: [],
 
       currentImage: null,
+
+      loadedImage: null,
     };
   }
 
@@ -47,7 +49,7 @@ export default class App extends React.Component {
       );
     }
 
-    const { memeTemplates, currentImage } = this.state;
+    const { memeTemplates, currentImage, loadedImage } = this.state;
 
     return (
       <div className="react-meme-generator">
@@ -82,18 +84,35 @@ export default class App extends React.Component {
                     ? 0
                     : currentImage + 1;
 
-                this.setState({ currentImage: nextCurrentImageValue });
+                this.setState({ currentImage: nextCurrentImageValue, loadedImage: null });
               }}
               className="react-meme-generator__button"
             >
               Change picture
             </button>
 
-            <button
+
+
+            <label
               className="react-meme-generator__button"
             >
+              <input
+                type="file"
+                accept="image/png, image/jpeg"
+                hidden={true}
+                onChange={(event) => {
+                  const inputElement = event.target;
+                  const file = inputElement.files[0]; // Instance of File (https://developer.mozilla.org/en-US/docs/Web/API/File)
+                  const fileAsBase64URLString = URL.createObjectURL(file);
+
+                  this.setState({
+                    loadedImage: fileAsBase64URLString,
+                  })
+                }}
+              />
+
               Load image
-            </button>
+            </label>
 
             <button
               className="react-meme-generator__button"
@@ -126,7 +145,7 @@ export default class App extends React.Component {
 
             <img
               className="react-meme-generator__meme"
-              src={memeTemplates[currentImage].url}
+              src={loadedImage ? loadedImage : memeTemplates[currentImage].url}
               alt=""
             />
           </div>
