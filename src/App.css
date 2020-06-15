@@ -1,38 +1,35 @@
-.App {
+.react-meme-generator {
+  max-width: 520px;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.react-meme-generator h1 {
   text-align: center;
+  font-size: 3em;
+  margin: 0;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.react-meme-generator__form {
+  text-align: center;
+  margin-bottom: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.react-meme-generator__input {
+  margin: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.react-meme-generator__button {
+  margin: 7px;
+  border: none;
+  background-color: rgb(38, 70, 121);
+  padding: 8px 10px;
   color: white;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.react-meme-generator__meme {
+  max-width: 100%;
 }
