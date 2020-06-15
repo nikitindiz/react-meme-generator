@@ -106,25 +106,14 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const fetchPromise = fetch('https://api.imgflip.com/get_memes');
-
-    fetchPromise.then(response => {
-      console.log('fulfilled', response);
-
-      const responseToJSONPromise = response.json();
-
-      responseToJSONPromise.then(resultObject => {
+    fetch('https://api.imgflip.com/get_memes')
+      .then(response => response.json())
+      .then(resultObject => {
         console.log('resultObject', resultObject);
+      })
+      .catch(error => {
+        console.log('rejected', error.message)
       });
-    });
-
-    fetchPromise.catch(error => {
-      console.log('rejected', error.message)
-    });
-
-    fetchPromise.finally(error => {
-      console.log('trigger anyway')
-    });
 
 
 
