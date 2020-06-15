@@ -33,3 +33,36 @@
 .react-meme-generator__meme {
   max-width: 100%;
 }
+
+.react-meme-generator__meme-container {
+  position: relative;
+}
+
+.react-meme-generator__meme-text {
+  font-family: Impact, "Arial Narrow Bold", sans-serif;
+
+  position: absolute;
+  font-size: 48px;
+  color: white;
+  text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+      2px 2px 0 #000;
+
+  text-transform: uppercase;
+
+  margin: 0;
+
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.react-meme-generator__meme-text--top {
+  top: 16px;
+}
+
+.react-meme-generator__meme-text--bottom {
+  bottom: 16px;
+}
