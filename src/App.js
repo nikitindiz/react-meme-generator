@@ -1,4 +1,6 @@
 import React from 'react';
+import domtoimage from 'dom-to-image';
+
 import './App.css';
 
 import initialImage from './img/meme-initial.jpg';
@@ -116,13 +118,22 @@ export default class App extends React.Component {
 
             <button
               className="react-meme-generator__button"
+              onClick={() => {
+                const node = document.querySelector('.react-meme-generator__meme-container');
+
+                domtoimage
+                  .toPng(node)
+                  .then((dataUrl) => {
+                      console.log(dataUrl)
+                  })
+                  .catch(function (error) {
+                      console.error('oops, something went wrong!', error);
+                  });
+              }}
             >
               Generate
             </button>
           </div>
-
-
-
 
           <div className="react-meme-generator__meme-container">
             <h2
