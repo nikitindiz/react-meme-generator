@@ -21,7 +21,11 @@ export default class App extends React.Component {
       currentImage: null,
 
       loadedImage: null,
+
+      generatedImage: null
     };
+
+    this.elementThatWeWantToConvertToImage = React.createRef();
   }
 
   render() {
@@ -51,7 +55,7 @@ export default class App extends React.Component {
       );
     }
 
-    const { memeTemplates, currentImage, loadedImage } = this.state;
+    const { memeTemplates, currentImage, loadedImage, generatedImage } = this.state;
 
     return (
       <div className="react-meme-generator">
@@ -119,15 +123,14 @@ export default class App extends React.Component {
             <button
               className="react-meme-generator__button"
               onClick={() => {
-                const node = document.querySelector('.react-meme-generator__meme-container');
+                const node = this.elementThatWeWantToConvertToImage.current;
 
                 domtoimage
                   .toPng(node)
                   .then((dataUrl) => {
-                      console.log(dataUrl)
-                  })
-                  .catch(function (error) {
-                      console.error('oops, something went wrong!', error);
+                      this.setState({
+                        generatedImage: dataUrl
+                      })
                   });
               }}
             >
@@ -135,7 +138,10 @@ export default class App extends React.Component {
             </button>
           </div>
 
-          <div className="react-meme-generator__meme-container">
+          <div
+            ref={(this.elementThatWeWantToConvertToImage)}
+            className="react-meme-generator__meme-container"
+          >
             <h2
               className="
                 react-meme-generator__meme-text
@@ -160,6 +166,10 @@ export default class App extends React.Component {
               alt=""
             />
           </div>
+
+          {generatedImage && (
+            <img src={generatedImage} alt=""/>
+          )}
       </div>
     );
   }
