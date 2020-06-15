@@ -11,11 +11,27 @@ export default class App extends React.Component {
       topText: '',
       bottomText: '',
       memeImage: initialImage,
+
+      memeTemplatesLoadingState: 'IDLE', // 'STARTED', 'SUCCEED', 'FAILED'
+      memeTemplates: [],
     };
   }
 
   render() {
-    const { topText, bottomText, memeImage } = this.state;
+    const {
+      topText,
+      bottomText,
+      memeImage,
+      memeTemplatesLoadingState,
+    } = this.state;
+
+    if (memeTemplatesLoadingState === 'IDLE') {
+      return (
+        <div className="react-meme-generator react-meme-generator--loading">
+          Loading...
+        </div>
+      );
+    }
 
     return (
       <div className="react-meme-generator">
@@ -87,5 +103,39 @@ export default class App extends React.Component {
           </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    const fetchPromise = fetch('https://api.imgflip.com/get_memes');
+
+    fetchPromise.then(response => {
+      console.log('fulfilled', response);
+
+      const responseToJSONPromise = response.json();
+
+      responseToJSONPromise.then(resultObject => {
+        console.log('resultObject', resultObject);
+      });
+    });
+
+    fetchPromise.catch(error => {
+      console.log('rejected', error.message)
+    });
+
+    fetchPromise.finally(error => {
+      console.log('trigger anyway')
+    });
+
+
+
+      // .then(response => {
+      //   return response.json();
+      // })
+      // .then(memesResult => {
+      //   this.setState({ memeTemplates: memesResult.data.memes });
+      // })
+      // .catch(error => {
+      //   console.log(error);
+      // })
   }
 }
