@@ -15,6 +15,8 @@ export default class App extends React.Component {
       memeTemplatesLoadingState: 'IDLE', // 'STARTED', 'SUCCEED', 'FAILED'
       memeTemplatesLoadingError: null,
       memeTemplates: [],
+
+      currentImage: null,
     };
   }
 
@@ -22,17 +24,30 @@ export default class App extends React.Component {
     const {
       topText,
       bottomText,
-      memeImage,
       memeTemplatesLoadingState,
+      memeTemplatesLoadingError,
     } = this.state;
 
-    if (memeTemplatesLoadingState === 'IDLE') {
+    const isLoading = memeTemplatesLoadingState === 'IDLE' || memeTemplatesLoadingState === 'STARTED';
+    const isError = memeTemplatesLoadingState === 'FAILED';
+
+    if (isLoading) {
       return (
         <div className="react-meme-generator react-meme-generator--loading">
           Loading...
         </div>
       );
     }
+
+    if (isError) {
+      return (
+        <div className="react-meme-generator react-meme-generator--error">
+          ERROR: {memeTemplatesLoadingError}
+        </div>
+      );
+    }
+
+    const { memeTemplates, currentImage } = this.state;
 
     return (
       <div className="react-meme-generator">
@@ -61,15 +76,28 @@ export default class App extends React.Component {
 
             <br/>
 
-            <button className="react-meme-generator__button">
+            <button
+              onClick={() => {
+                const nextCurrentImageValue = (currentImage === memeTemplates.length)
+                    ? 0
+                    : currentImage + 1;
+
+                this.setState({ currentImage: nextCurrentImageValue });
+              }}
+              className="react-meme-generator__button"
+            >
               Change picture
             </button>
 
-            <button className="react-meme-generator__button">
+            <button
+              className="react-meme-generator__button"
+            >
               Load image
             </button>
 
-            <button className="react-meme-generator__button">
+            <button
+              className="react-meme-generator__button"
+            >
               Generate
             </button>
           </div>
@@ -98,7 +126,7 @@ export default class App extends React.Component {
 
             <img
               className="react-meme-generator__meme"
-              src={memeImage}
+              src={memeTemplates[currentImage].url}
               alt=""
             />
           </div>
@@ -115,7 +143,8 @@ export default class App extends React.Component {
         .then(resultObject => {
           this.setState({
             memeTemplatesLoadingState: 'SUCCEED',
-            memeTemplates: resultObject.data.memes
+            memeTemplates: resultObject.data.memes,
+            currentImage: 0,
           });
         })
         .catch(error => {

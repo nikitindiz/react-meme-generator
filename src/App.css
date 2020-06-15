@@ -35,6 +35,7 @@
 }
 
 .react-meme-generator__meme-container {
+  word-break: break-all;
   position: relative;
 }
 
